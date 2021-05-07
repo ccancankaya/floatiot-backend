@@ -16,20 +16,29 @@ exports.getData=(req,res)=>{
 
     if(req.body.toStart === 1 && req.body.from === 1){
             var time=new Date().getHours()
-            var time2
+            var day=new Date().getDate()
             toStart='2021-04-24T13%3A57%3A09%2B03%3A00'
-            if(time.toString().length===1){
-                time2='0'+time.toString()
+            if(time.toString().length===1 && day.toString().length===1){
+                var time2='0'+time.toString()
                 from=new Date().getFullYear().toString()+'-'+'0'+(new Date().getMonth()+1).toString()+'-'+
                 '0'+new Date().getDate().toString()+'T'+time2+'%'+'3A'+new Date().getMinutes().toString()+'%'+'3A'+'00'+'%'+'2B00'+'%'+
                 '3A00'
-                console.log(from1)
                 // new Date().getMinutes().toString()+'+03:00'
-            }else{
+            }else if(time.toString().length===1){
                  from=new Date().getFullYear().toString()+'-'+'0'+(new Date().getMonth()+1).toString()+'-'+
-                '0'+new Date().getDate().toString()+'T'+new Date().getHours().toString()+'%'+'3A'+new Date().getMinutes().toString()+'%'+'3A'+'00'+'%'+'2B00'+'%'+
+                new Date().getDate().toString()+'T'+'0'+new Date().getHours().toString()+'%'+'3A'+new Date().getMinutes().toString()+'%'+'3A'+'00'+'%'+'2B00'+'%'+
                 '3A00'
                 
+            }else if(day.toString().length===1){
+                from=new Date().getFullYear().toString()+'-'+'0'+(new Date().getMonth()+1).toString()+'-'+
+                '0'+new Date().getDate().toString()+'T'+time.toString()+'%'+'3A'+new Date().getMinutes().toString()+'%'+'3A'+'00'+'%'+'2B00'+'%'+
+                '3A00'
+
+            } else{
+                from=new Date().getFullYear().toString()+'-'+'0'+(new Date().getMonth()+1).toString()+'-'+
+                new Date().getDate().toString()+'T'+time.toString()+'%'+'3A'+new Date().getMinutes().toString()+'%'+'3A'+'00'+'%'+'2B00'+'%'+
+                '3A00'
+
             }
 
             // from=new Date().getFullYear().toString()+'-'+'0'+new Date().getMonth().toString()+'-'+
@@ -41,6 +50,10 @@ exports.getData=(req,res)=>{
         toStart=req.body.toStart
         from=req.body.from
     }
+
+
+
+
 
     const data = JSON.stringify({
         username: 'superadmin',
@@ -68,7 +81,8 @@ exports.getData=(req,res)=>{
                                     const options = {
                                         hostname: '192.168.12.21',
                                         //   port: 443,
-                                        path: `/api/v2/devices/flow-meter-map/attribute/ANALOG_INPUT/detailed-time-series?query=&date-from=${toStart}&date-to=${from}`,
+                                        path:`/api/v2/devices/flow-meter-map/attribute/ANALOG_INPUT/detailed-time-series?query=&date-from=${toStart}&date-to=${from}`,
+                                        // path: `/api/v2/devices/flow-meter-map/attribute/ANALOG_INPUT/detailed-time-series?query=&date-from=${toStart}&date-to=${from}`,
                                         method: 'GET',
                                         headers: {
                                             'Content-Type': 'application/json',
@@ -84,8 +98,10 @@ exports.getData=(req,res)=>{
                                         })
                                 
                                         response.on('end', () => {
-                                            var values= dbd.series[Object.keys(dbd.series)[0]];
-                                            console.log(values)
+                                            // console.log(dbd)
+                                            var values= dbd.series[Object.keys(dbd.series)[1]];
+                                            console.log(Object.keys(dbd.series)[1])
+                                            console.log(values.length)
                                             res.send(values)
                                         })
                                     })
@@ -99,7 +115,7 @@ exports.getData=(req,res)=>{
             })
         
             request1.on('error', error => {
-                console.error(error)
+                // console.error(error)
                 res.send(error)
             })
         
