@@ -1,7 +1,5 @@
 const config =require('../config/db.config.js');
 
-
-
 const Sequelize = require('sequelize');
 const sequelize=new Sequelize(
     config.Db,
@@ -33,6 +31,9 @@ db.permission_level=require('../models/permission_level.model.js')(sequelize,Seq
 db.region=require('../models/region.model.js')(sequelize,Sequelize)
 db.user_permission=require('../models/user_permission.model.js')(sequelize,Sequelize)
 db.analog_input_pressure=require('../models/analogInput.model.js')(sequelize,Sequelize)
+db.pressure_input_device=require('../models/pressureInputDevice.model.js')(sequelize,Sequelize)
+db.pressure_input_device3=require('../models/pressureInputDevice3.model')(sequelize,Sequelize)
+db.device=require('../models/device.model.js')(sequelize,Sequelize)
 
 
 
