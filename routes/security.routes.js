@@ -22,6 +22,10 @@ module.exports =function(app){
     app.post('/api/security/signin',userController.signin)
 
     app.post('/api/security/getpressure',[authJwt.verifyToken],flotiotController.getData)
+    app.post('/api/security/devicename',[authJwt.verifyToken],flotiotController.updateDeviceName)
+
+    app.get('/api/security/getdevices',[authJwt.verifyToken],flotiotController.getDevices)
+
 
     //Admin can add new user at system (with users's permission,region,role,level)
     app.post('/api/security/useradd',authJwt.verifyToken,authJwt.isAdmin,[

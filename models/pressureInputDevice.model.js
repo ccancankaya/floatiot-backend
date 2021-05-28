@@ -1,5 +1,5 @@
 module.exports=(sequelize,Sequelize)=>{
-    const PressureAnalogInput =sequelize.define('Pressure_Analog_Input',{
+    const PressureInputDevice =sequelize.define('866425037886209s',{
         pressure:{
             type:Sequelize.NUMERIC
         },
@@ -9,5 +9,5 @@ module.exports=(sequelize,Sequelize)=>{
      
     });
 
-    return PressureAnalogInput;
+    return PressureInputDevice;
 }
